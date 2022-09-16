@@ -1,0 +1,90 @@
+<div>  
+    <div class = mt-2>
+      <button type="button" class="btn btn-info float  text-light my-2 me-2 .d-none" (click)="toggleMessageBox()" id="openMessageBox" >
+      {{openClose}}
+      </button>
+      <button type="button" [hidden]="true"  class="btn btn-primary float  my-2 me-2 .d-none" data-bs-toggle="modal" data-bs-target="#staticBackdrop" id="openModal">
+      shiet
+      </button>
+      <form  *ngIf="showAddTask"  class="add-form" >
+          <div class="my-1">
+            <textarea class="form-control" type="text" [(ngModel)]="inputMessage" name="inputMessage" placeholder=" ... hello world" id="inputMessage" ></textarea>
+          </div>
+          <button type="button" class="btn btn-primary my-1"  (click)="submitMessage()">Post</button>
+        </form>
+        <div>
+          <nav aria-label="Page navigation example">
+            <ul class="pagination justify-content-end">
+              <li class="page-item"  *ngFor="let pa of allpages; let i = index" >
+                <a class="page-link"  (click)="toggleChange($event.currentTarget.value)" value="{{i+1}}">{{pa}} </a>
+              </li>
+            </ul>
+          </nav> 
+        </div>
+    </div>
+  
+    <div class="text-center" id="spinner">
+      <div class="spinner-border" role="status">
+        <span class="sr-only"></span>
+      </div>
+    </div>
+  
+      <div class="card my-2" *ngFor="let post of myPostsMessages$|async">
+        <div class="row g-0">
+          <div class="col-md-2 position-relative ">
+            <img src={{post.pictureLink}} class="mb-1 img-fluid rounded-circle position-relative top-50 start-50 translate-middle" alt="avatar" 
+            style="max-width: 75px;max-height: 75px; height:75px; width:75px">
+          </div>
+          <div class="col-md-10">
+            <div class="card-body">
+              <p class="card-text my-2">
+                <i class="bi bi-1-square"></i>
+                <medium>
+                  {{post.message}}<small class="text-muted text-capitalize">  - {{post.displayName}} 
+                  
+                  </small>
+              </medium>
+              </p>
+              <a  class="btn btn-link btn-sm link-info" *ngIf="userID===post.userID" value={{post.messageID}} (click)="setLastClicked($event.currentTarget.value)"
+              data-bs-toggle="modal" data-bs-target="#exampleModal2"><small> Delete </small></a>
+            </div>
+          </div>
+        </div>
+      </div>
+  
+  
+      <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+          <div class="modal-dialog" >
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">Anonomous Name</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="closeAddModal"></button>
+              </div>
+              <div class="modal-body">
+                <form>
+                  <div>
+                    <label for="title" class="col-form-label">I want to be</label>
+                    <input type="text" class="form-control form-control-lg my-2" name="title" [(ngModel)]="displayNameInput" placeholder="..." >
+                    <button type="button" (click)="saveName()" class="btn btn-primary my-3" > Save </button>
+                  </div>
+                </form>
+              </div>
+            </div>
+        </div>
+      </div>
+  
+      <div class="modal fade " id="exampleModal2" tabindex="-1" aria-labelledby="exampleModalLabel2" aria-hidden="true" >
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel2">Delete?</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="closeDeleteModal" ></button>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-primary" (click)="delete()">Yes</button>
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+            </div>
+          </div>
+        </div>
+      </div>
+  </div>

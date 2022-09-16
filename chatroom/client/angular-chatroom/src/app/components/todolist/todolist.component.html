@@ -1,0 +1,75 @@
+<div>
+  <button type="button" class="btn btn-primary my-3" data-bs-toggle="modal" data-bs-target="#addNoteModal" id="openModal">Create note</button>
+  <div class="row row-cols-1 row-cols-md-3 g-4" *ngIf="myPosts" >
+    <div class="col" *ngFor="let post of myPosts">
+      <div class="card h-100">
+        <div class="card-body">
+          <button  value={{post.noteid}}  class="btn btn-outline-danger me-2 mb-1 float-end" data-bs-toggle="modal" data-bs-target="#deleteNoteModal"
+          (click)="setLastClicked($event.currentTarget.value)"
+          >     
+          
+            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+              <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
+              <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
+            </svg>
+          </button>
+          <h6 class="card-title"> <strong>{{post.title}}</strong></h6>
+          <p class="card-text"> {{post.note}}</p>
+        </div>
+        <img *ngIf="post.imageData"  src={{post.imageData}}   class="rounded mx-auto d-block"  alt="..." style="height:200px; width:200px">
+        <div class="card-footer">
+          <small class="text-muted">{{post.datePosted}}</small>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="addNoteModal" tabindex="-1" aria-labelledby="addNoteModalLabel" aria-hidden="true" >
+      <div class="modal-dialog" >
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="addNoteModalLabel">Add a note</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="resetState()" id="closeAddModal"></button>
+          </div>
+          <div class="modal-body">
+            <form>
+              <div>
+                <label for="title" class="col-form-label">Title</label>
+                <input type="text" class="form-control my-2" name="title" [(ngModel)]="title"  placeholder="..." >
+                <label for="note" class="form-label">Note</label>
+                <textarea class="form-control my-2" type="text" [(ngModel)]="note" name="note" placeholder="..." id="note" ></textarea>
+                <img [src]="url" style="height:200px; width:200px" [hidden]="!url"><br>
+                  <label for="customFile" class="col-form-label" [hidden]="url">Upload picture</label>
+                <div class="my-3">
+                  <input type="file" accept="image/*"   style="color:transparent;"  id="customFile" name="customFile" (change)="onselectFile($event)" />
+                </div>
+                <button type="button" (click)="saveNote()" class="btn btn-primary my-3" > Save </button>
+              </div>
+            </form>
+          </div>
+        </div>
+    </div>
+  </div>
+
+  <div class="modal fade " id="deleteNoteModal" tabindex="-1" aria-labelledby="deleteNoteModal" aria-hidden="true" >
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="deleteNoteModal">Delete?</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="closeDeleteModal" ></button>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" (click)="delete()">Yes</button>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+  
+
+
+
+
+  
+  
