@@ -14,10 +14,6 @@ export class InspectionApiService {
   constructor(private http:HttpClient) { }
 
 
-  getMessageList():Observable<any[]> {
-    return this.http.get<any>(this.inspectionAPIUrl + '/messagelist');
-  }
-  
   getMessageListPaged(id:number|string):Observable<any[]> {
     return this.http.get<any>(this.inspectionAPIUrl +  `/PaginationMessages/paginationData?pg=${id}`)
   }
@@ -27,11 +23,13 @@ export class InspectionApiService {
   }
 
   postMessageList(data:Chat) {
-    return this.http.post(this.inspectionAPIUrl + '/messagelist', data);
+    return this.http.post(this.inspectionAPIUrl + '/PaginationMessages', data);
   }
 
   deleteMessageList(data:any) {
-    return this.http.put(this.inspectionAPIUrl + `/messagelist/delete`, data);
+    return this.http.put(this.inspectionAPIUrl + `/PaginationMessages/delete`, data);
   }
 
+
 }
+
