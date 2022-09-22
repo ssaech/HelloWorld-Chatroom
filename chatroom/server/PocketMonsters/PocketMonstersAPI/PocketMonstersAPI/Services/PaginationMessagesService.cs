@@ -1,15 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Http;
 using System.Data.SqlClient;
 using Dapper;
-using System.Web.Http.Cors;
 using PocketMonstersAPI.Models;
-using Newtonsoft.Json;
-using Swashbuckle.AspNetCore.SwaggerGen;
 using PocketMonstersAPI.Services;
-using Microsoft.AspNetCore.Connections;
-using System.Data;
-using System.Data.Common;
 
 namespace PocketMonstersAPI.Services;
 
@@ -22,6 +14,7 @@ public class PaginationMessagesService: IPaginationMessagesService
     {
         _config = config;
     }
+
 
     public async Task<IEnumerable<MessageList>> GetAllAsync(int pg = 1)
     {
@@ -43,6 +36,7 @@ public class PaginationMessagesService: IPaginationMessagesService
         return data;
     }
 
+
     public async Task<IEnumerable<Output>> GetPagination(int pg = 1)
     {
         using var connection = new SqlConnection(_config.GetConnectionString("DefaultConnection"));
@@ -56,9 +50,7 @@ public class PaginationMessagesService: IPaginationMessagesService
 
         var pager = new Pager(recsCount, pg, pageSize);
 
-        int recSkip = (pg - 1) * pageSize;
 
-        var data = messages.Skip(recSkip).Take(pager.PageSize).ToList();
         List<Output> items = new List<Output>
         {
             new Output {
@@ -79,12 +71,17 @@ public class PaginationMessagesService: IPaginationMessagesService
         return Results.Ok();
     }
 
+
     public async Task<IResult> DeleteMesage(MessageOutput mess)
     {
         using var connection = new SqlConnection(_config.GetConnectionString("DefaultConnection"));
         await connection.ExecuteAsync("UPDATE dbo.AngChat SET Active = '0' WHERE  UserID=@UserID AND MessageID=@MessageID", mess);
+
         return Results.Ok();
     }
+
 }
+
+
 
 
