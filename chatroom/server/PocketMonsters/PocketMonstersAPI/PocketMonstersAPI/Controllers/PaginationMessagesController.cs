@@ -1,14 +1,6 @@
-using System;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Http;
-using System.Data.SqlClient;
-using Dapper;
-using System.Web.Http.Cors;
 using PocketMonstersAPI.Models;
 using PocketMonstersAPI.Services;
-using Newtonsoft.Json;
-using Swashbuckle.AspNetCore.SwaggerGen;
-
 
 namespace PocketMonstersAPI.Controllers
 {
