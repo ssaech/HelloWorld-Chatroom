@@ -5,7 +5,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddSingleton<IPaginationMessagesService, PaginationMessagesService>();
+builder.Services.AddTransient<IPaginationMessagesService, PaginationMessagesService>();
 builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddSwaggerGen();
