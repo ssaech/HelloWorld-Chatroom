@@ -11,5 +11,4 @@ public interface IPaginationMessagesService
 
     Task<IResult> DeleteMesage(MessageOutput mess);
 
-
 }
