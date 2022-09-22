@@ -5,9 +5,9 @@ using System.Data.SqlClient;
 using Dapper;
 using System.Web.Http.Cors;
 using PocketMonstersAPI.Models;
+using PocketMonstersAPI.Services;
 using Newtonsoft.Json;
 using Swashbuckle.AspNetCore.SwaggerGen;
-
 
 
 namespace PocketMonstersAPI.Controllers
@@ -16,77 +16,46 @@ namespace PocketMonstersAPI.Controllers
     [ApiController]
     public class PaginationMessagesController : ControllerBase
     {
-        private readonly IConfiguration _config;
+        private readonly IPaginationMessagesService _pageService;
 
-        public PaginationMessagesController(IConfiguration config)
+        public PaginationMessagesController(IPaginationMessagesService connection)
         {
-            _config = config;
+            _pageService = connection;
         }
-
-
         [HttpGet("messageData")]
         public async Task<ActionResult<List<MessageList>>> GetMessageListJustData(int pg = 1)
         {
-            using var connection = new SqlConnection(_config.GetConnectionString("DefaultConnection"));
-            IEnumerable<MessageList> mess = await connection.QueryAsync<MessageList>("select * from AngChat where Active = '1' Order by dateCreated desc");
-            List<MessageList> messages = mess.ToList();
-            const int pageSize = 5;
-            if (pg < 1)
-                pg = 1;
-
-            int recsCount = messages.Count();
-            var pager = new Pager(recsCount, pg, pageSize);
-            int recSkip = (pg - 1) * pageSize;
-            var data = messages.Skip(recSkip).Take(pager.PageSize).ToList();
-
-
+            var data = await _pageService.GetAllAsync(pg);
+            if (data is null)
+            {
+                return NotFound();
+            }
             return Ok(data);
 
         }
 
         [HttpGet("paginationData")]
         public async Task<ActionResult> GetMessageJustPage(int pg = 1)
-        {   
-                using var connection = new SqlConnection(_config.GetConnectionString("DefaultConnection"));
-                IEnumerable<MessageList> mess = await connection.QueryAsync<MessageList>("select * from AngChat where Active = '1' Order by dateCreated desc");
-                List<MessageList> messages = mess.ToList();
-                const int pageSize = 5;
-                if (pg < 1)
-                    pg = 1;
+        {
 
-                int recsCount = messages.Count();
-                var pager = new Pager(recsCount, pg, pageSize);
-                int recSkip = (pg - 1) * pageSize;
-                var data = messages.Skip(recSkip).Take(pager.PageSize).ToList();
+            var items = await _pageService.GetPagination(pg);
+            return Ok(items);
 
-                List<Output> items = new List<Output>
-                {   
-                    new Output { TotalItems=pager.TotalItems, CurrentPage=pager.CurrentPage, PageSize=pager.PageSize,
-                            TotalPages = pager.TotalPages, StartPage = pager.StartPage, EndPage = pager.EndPage}
-
-                 };
-
-                int[] vari = new int[pager.PageSize];
-                return Ok(items);
-            
         }
 
         [HttpPost]
-        public async Task<ActionResult<List<MessageList>>> PostMessageList(MessageList mess)
+        public async Task<IResult> PostMessageList(MessageList mess)
         {
-            using var connection = new SqlConnection(_config.GetConnectionString("DefaultConnection"));
-            await connection.ExecuteAsync("INSERT INTO dbo.AngChat (DateCreated, DisplayName, UserID, PictureLink, Message, Active, MessageID) " +
-                                          "VALUES (@DateCreated, @DisplayName, @UserID, @PictureLink, @Message, '1', @MessageID)", mess);
-            return Ok();
+            var post =  await _pageService.CreateAsync(mess);
+            return Results.Ok();
 
         }
 
         [HttpPut("delete")]
-        public async Task<ActionResult<List<MessageList>>> DeleteMesage(MessageOutput mess)
+        public async Task<IResult> DeleteMesage(MessageOutput mess)
         {
-            using var connection = new SqlConnection(_config.GetConnectionString("DefaultConnection"));
-            await connection.ExecuteAsync("UPDATE dbo.AngChat SET Active = '0' WHERE  UserID=@UserID AND MessageID=@MessageID", mess);
-            return Ok();
+            var post = await _pageService.DeleteMesage(mess);
+            return Results.Ok();
 
         }
 
