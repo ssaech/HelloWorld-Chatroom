@@ -13,7 +13,11 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddCors(p => p.AddPolicy("corspolicy", build =>
 {
-    build.WithOrigins("http://localhost:4200", "https://delightful-river-099243710.1.azurestaticapps.net", "https://d9pw3nhnm7h02.cloudfront.net").AllowAnyMethod().AllowAnyHeader();
+    build.WithOrigins(
+                //"http://localhost:4200",
+                "https://delightful-river-099243710.1.azurestaticapps.net",
+                "https://d9pw3nhnm7h02.cloudfront.net")
+                .AllowAnyMethod().AllowAnyHeader();
 }));
 
 var app = builder.Build();
@@ -35,5 +39,4 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
-
 
