@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 25.0.1700.3
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PocketMonstersAPI", "PocketMonstersAPI\PocketMonstersAPI.csproj", "{3292E577-0827-42AD-B50E-13266C4605CD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PocketMonstersAPI.UnitTests", "PocketMonstersAPI.UnitTests\PocketMonstersAPI.UnitTests.csproj", "{931D7B23-61CF-481D-A992-BDB117021BA4}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{3292E577-0827-42AD-B50E-13266C4605CD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3292E577-0827-42AD-B50E-13266C4605CD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3292E577-0827-42AD-B50E-13266C4605CD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3292E577-0827-42AD-B50E-13266C4605CD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{931D7B23-61CF-481D-A992-BDB117021BA4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{931D7B23-61CF-481D-A992-BDB117021BA4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{931D7B23-61CF-481D-A992-BDB117021BA4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{931D7B23-61CF-481D-A992-BDB117021BA4}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {EA912C9E-6CC7-41B9-920C-C081466D0A8F}
+	EndGlobalSection
+EndGlobal
